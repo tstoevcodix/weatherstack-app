@@ -23,7 +23,7 @@ export class WeatherLocationComponent implements OnInit {
     this.weatherFacadeService
       .getCurrentLocation$()
       .pipe(untilDestroyed(this))
-      .subscribe(async (location: LocationModel | null) => {
+      .subscribe((location: LocationModel | null) => {
         if (!location) {
           this.location = '';
 
@@ -32,12 +32,19 @@ export class WeatherLocationComponent implements OnInit {
 
         this.location = `${location.name}, ${location.region}, ${location.country}`;
         this.isBookmarked =
-          await this.weatherFacadeService.isCurrentLocationBookmarked();
+          this.weatherFacadeService.isCurrentLocationBookmarked();
       });
   }
 
   handleLocationBookmark(): void {
-    this.isBookmarked = !this.isBookmarked;
+    if (this.isBookmarked) {
+      this.weatherFacadeService.unmarkCurrentLocation();
+      this.isBookmarked = false;
+
+      return;
+    }
+
     this.weatherFacadeService.bookmarkCurrentLocation();
+    this.isBookmarked = true;
   }
 }

@@ -1,6 +1,6 @@
 @import "~angular-notifier/styles";
 @import "~angular-notifier/styles/themes/theme-material";
-/* You can add global styles to this file, and also import other style files */
+
 @font-face {
   font-family: "San Francisco";
   font-weight: 400;
@@ -12,4 +12,5 @@ html {
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   line-height: 1.5;
   font-size: 1em;
+  background-color: #ededed;
 }

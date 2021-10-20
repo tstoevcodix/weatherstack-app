@@ -28,6 +28,12 @@ export class WeatherFacadeService {
   ) {
     this.handleGetWeather();
     this.handleBookmarkedLocationsChange();
+
+    this.getCurrentLocation$()
+      .pipe(untilDestroyed(this))
+      .subscribe((currentLocation: LocationModel | null) => {
+        this.currentLocation = currentLocation;
+      });
   }
 
   getCurrentLocation$(): Observable<LocationModel | null> {
@@ -38,10 +44,22 @@ export class WeatherFacadeService {
     this.getWeather$.next(location);
   }
 
+  getBookmarkedLocations$(): Observable<Array<LocationModel>> {
+    return this.storeService.bookmarkedLocations$;
+  }
+
   bookmarkCurrentLocation(): void {
     this.storeService.addBookmarkedLocation(
       this.currentLocation as LocationModel
     );
+  }
+
+  unmarkLocation(location: LocationModel): void {
+    this.storeService.removeBookmarkedLocation(location);
+  }
+
+  unmarkCurrentLocation(): void {
+    this.unmarkLocation(this.currentLocation as LocationModel);
   }
 
   isCurrentLocationBookmarked(): boolean {
@@ -63,12 +81,16 @@ export class WeatherFacadeService {
       return;
     }
 
-    const location = pick(response.location, ['name', 'region', 'country']);
+    const location = this.utilService.pick(response.location, [
+      'name',
+      'region',
+      'country',
+    ]);
     this.currentLocation = location;
     this.storeService.setCurrentLocation(location);
 
     this.storeService.setCurrentWeatherData(
-      pick(response.current, [
+      this.utilService.pick(response.current, [
         'observation_time',
         'temperature',
         'weather_icons',
@@ -81,7 +103,11 @@ export class WeatherFacadeService {
 
     this.storeService.setHistoricalWeatherData(
       Object.values(response.historical).map((historicalWeatherData) =>
-        pick(historicalWeatherData, ['mintemp', 'maxtemp', 'date'])
+        this.utilService.pick(historicalWeatherData, [
+          'mintemp',
+          'maxtemp',
+          'date',
+        ])
       )
     );
   }

@@ -1,10 +1,13 @@
-aside {
-  width: 33%;
-  display: inline-block;
-}
+:host {
+  display: flex;
+  aside {
+    width: 33%;
+    display: inline-block;
+  }
 
-main {
-  width: 66%;
-  max-width: 820px;
-  display: inline-block;
+  main {
+    width: 66%;
+    max-width: 820px;
+    display: inline-block;
+  }
 }
