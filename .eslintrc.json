@@ -15,5 +15,13 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "always"]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.json"],
+      "rules": {
+        "quotes": "off"
+      }
+    }
+  ]
 }
