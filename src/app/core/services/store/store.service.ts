@@ -2,33 +2,40 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApplicationState } from 'src/app/models/application-state.model';
+import { CurrentReadingsModel } from 'src/app/models/current-readings.model';
+import { HistoricalReadingsModel } from 'src/app/models/historical-readings.model';
 import { LocationModel } from 'src/app/models/location.model';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 import { UtilService } from '../util/util.service';
-
-const initialState: ApplicationState = {
-  bookmarkedLocations: [],
-  currentLocation: null,
-};
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoreService {
-  private readonly store$ = new BehaviorSubject<ApplicationState>(initialState);
+  private readonly store$ = new BehaviorSubject<ApplicationState>(
+    this.localStorageService.getState()
+  );
+
   readonly bookmarkedLocations$ = this.store$.pipe(
     map((state: ApplicationState) => state.bookmarkedLocations)
   );
+
   readonly currentLocation$ = this.store$.pipe(
     map((state: ApplicationState) => state.currentLocation)
   );
 
-  constructor(private utilService: UtilService) {}
+  constructor(
+    private utilService: UtilService,
+    private localStorageService: LocalStorageService
+  ) {}
 
-  setCurrentLocation(currentLocation: LocationModel): void {
+  setCurrentLocation(currentLocation: LocationModel | null): void {
     this.store$.next({
       ...this.store$.value,
       currentLocation,
     });
+
+    this.percistState();
   }
 
   addBookmarkedLocation(location: LocationModel): void {
@@ -39,6 +46,8 @@ export class StoreService {
       ...this.store$.value,
       bookmarkedLocations: Array.from(bookmarkedLocations),
     });
+
+    this.percistState();
   }
 
   removeBookmarkedLocation(location: LocationModel): void {
@@ -51,5 +60,31 @@ export class StoreService {
       ...this.store$.value,
       bookmarkedLocations,
     });
+
+    this.percistState();
+  }
+
+  setCurrentWeatherData(currentWeatherData: CurrentReadingsModel | null): void {
+    this.store$.next({
+      ...this.store$.value,
+      currentWeatherData,
+    });
+
+    this.percistState();
+  }
+
+  setHistoricalWeatherData(
+    historicalWeatherData: Array<HistoricalReadingsModel>
+  ): void {
+    this.store$.next({
+      ...this.store$.value,
+      historicalWeatherData,
+    });
+
+    this.percistState();
+  }
+
+  private percistState(): void {
+    this.localStorageService.setState(this.store$.value);
   }
 }

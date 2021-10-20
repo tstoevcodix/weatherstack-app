@@ -21,6 +21,8 @@
     "@fortawesome/angular-fontawesome": "^0.9.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@ngneat/until-destroy": "^8.1.4",
+    "angular-notifier": "^9.1.0",
     "lodash": "4.17.21",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",

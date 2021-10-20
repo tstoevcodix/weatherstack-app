@@ -8,6 +8,7 @@ import { WeatherLocationComponent } from './components/weather-location/weather-
 import { CurrentWeatherDataComponent } from './components/current-weather-data/current-weather-data.component';
 import { HistoricalWeatherDataComponent } from './components/historical-weather-data/historical-weather-data.component';
 import { HistoricalWeatherCardComponent } from './components/historical-weather-card/historical-weather-card.component';
+import { FormsModule } from '@angular/forms';
 
 const components = [
   WeatherComponent,
@@ -22,7 +23,7 @@ const components = [
 
 @NgModule({
   declarations: [...components],
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   exports: [...components],
 })
 export class WeatherModule {}
