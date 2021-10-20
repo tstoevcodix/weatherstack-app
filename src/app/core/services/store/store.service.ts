@@ -35,7 +35,7 @@ export class StoreService {
       currentLocation,
     });
 
-    this.percistState();
+    this.persistState();
   }
 
   addBookmarkedLocation(location: LocationModel): void {
@@ -47,7 +47,7 @@ export class StoreService {
       bookmarkedLocations: Array.from(bookmarkedLocations),
     });
 
-    this.percistState();
+    this.persistState();
   }
 
   removeBookmarkedLocation(location: LocationModel): void {
@@ -61,7 +61,7 @@ export class StoreService {
       bookmarkedLocations,
     });
 
-    this.percistState();
+    this.persistState();
   }
 
   setCurrentWeatherData(currentWeatherData: CurrentReadingsModel | null): void {
@@ -70,7 +70,7 @@ export class StoreService {
       currentWeatherData,
     });
 
-    this.percistState();
+    this.persistState();
   }
 
   setHistoricalWeatherData(
@@ -81,10 +81,10 @@ export class StoreService {
       historicalWeatherData,
     });
 
-    this.percistState();
+    this.persistState();
   }
 
-  private percistState(): void {
+  private persistState(): void {
     this.localStorageService.setState(this.store$.value);
   }
 }

@@ -1,1 +1,8 @@
-<p>weather-location works!</p>
+<ng-container *ngIf="location">
+  <h2>{{ location }}</h2>
+  <fa-icon
+    [icon]="heartIcon"
+    [class.bookmarked]="isBookmarked"
+    (click)="handleLocationBookmark()"
+  ></fa-icon>
+</ng-container>

@@ -5,7 +5,6 @@ import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { WeatherModule } from './weather/weather.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const customNotifierOptions: NotifierOptions = {
   theme: 'material',
@@ -21,7 +20,6 @@ const customNotifierOptions: NotifierOptions = {
     BrowserModule,
     CoreModule,
     WeatherModule,
-    FontAwesomeModule,
     NotifierModule.withConfig(customNotifierOptions),
   ],
   providers: [],

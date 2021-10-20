@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { WeatherComponent } from './pages/weather/weather.component';
 import { BookmarkedLocationsComponent } from './components/bookmarked-locations/bookmarked-locations.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
@@ -23,7 +25,7 @@ const components = [
 
 @NgModule({
   declarations: [...components],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FontAwesomeModule],
   exports: [...components],
 })
 export class WeatherModule {}
