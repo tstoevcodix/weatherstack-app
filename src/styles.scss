@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~angular-notifier/styles";
+@import "~angular-notifier/styles/themes/theme-material";
+
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
+
+html {
+  font-family: "San Francisco", "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.5;
+  font-size: 1em;
+  background-color: #ededed;
+}
+
+body {
+  margin: 0;
+}

@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  fa-icon {
+    cursor: pointer;
+    color: #000000a3;
+    font-size: 1.5rem;
+  }
+
+  .bookmarked {
+    color: #1fc458;
+  }
+}

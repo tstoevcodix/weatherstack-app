@@ -1,0 +1,8 @@
+<h3>Bookmarked locations</h3>
+<p *ngFor="let location of bookmarkedLocations; trackBy: trackByName">
+  <fa-icon
+    [icon]="removeIcon"
+    (click)="handleUnmarkLocation.emit(location)"
+  ></fa-icon>
+  <span>{{ location?.name }}, {{ location?.country }}</span>
+</p>

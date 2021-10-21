@@ -1,0 +1,10 @@
+<input
+  #currentLocation
+  type="text"
+  name="location"
+  [value]="location"
+  (keydown.enter)="handleGetWeather.emit(currentLocation.value)"
+/>
+<button (click)="handleGetWeather.emit(currentLocation.value)">
+  Get Weather
+</button>

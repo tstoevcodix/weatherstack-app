@@ -1,0 +1,32 @@
+:host {
+  display: flex;
+  aside {
+    width: 33%;
+    display: inline-block;
+    height: 100vh;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  main {
+    width: 66%;
+    max-width: 820px;
+    display: inline-block;
+    margin: 1rem auto 0 auto;
+  }
+
+  .cards {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media screen and (max-width: 776px) {
+    display: block;
+
+    aside,
+    main {
+      display: block;
+      width: 100%;
+      height: initial;
+    }
+  }
+}
