@@ -30,7 +30,7 @@ Please note that this wireframe is not a final design. Feel free to use whatever
 
 ### API
 
-http://api.weatherstack.com
+https://weatherstack.com/documentation
 
 ACCESS_KEY: **efb01dd815ec0a2e6a410e5b03a6524d**
 
