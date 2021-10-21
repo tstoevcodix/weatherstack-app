@@ -1,6 +1,6 @@
 :host {
-  * {
-    padding-left: 0.5rem;
+  > * {
+    padding-left: 1rem;
   }
   fa-icon {
     color: #d9534f;

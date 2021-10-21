@@ -1,7 +1,9 @@
-<p>Last three days:</p>
-<div class="cards">
-  <app-historical-weather-card
-    *ngFor="let data of historicalData"
-    [data]="data"
-  ></app-historical-weather-card>
-</div>
+<ng-container *ngIf="historicalData.length">
+  <p>Last three days:</p>
+  <div class="cards">
+    <app-historical-weather-card
+      *ngFor="let data of historicalData"
+      [data]="data"
+    ></app-historical-weather-card>
+  </div>
+</ng-container>

@@ -10,6 +10,7 @@ import { catchError, switchMap, tap } from 'rxjs/operators';
 import { ApiResponseModel } from 'src/app/models/api-response.model';
 import { UtilService } from '../services/util/util.service';
 import { HistoricalReadingsModel } from 'src/app/models/historical-readings.model';
+import { CurrentReadingsModel } from 'src/app/models/current-readings.model';
 
 @UntilDestroy()
 @Injectable({
@@ -70,6 +71,10 @@ export class WeatherFacadeService {
 
   historicalData$(): Observable<Array<HistoricalReadingsModel>> {
     return this.storeService.historicalData$;
+  }
+
+  currentWeatherData$(): Observable<CurrentReadingsModel | null> {
+    return this.storeService.currentWeatherData$;
   }
 
   private setState(response: ApiResponseModel): void {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { ApplicationState } from 'src/app/models/application-state.model';
 import { CurrentReadingsModel } from 'src/app/models/current-readings.model';
 import { HistoricalReadingsModel } from 'src/app/models/historical-readings.model';
@@ -26,6 +27,10 @@ export class StoreService {
 
   readonly historicalData$ = this.store$.pipe(
     map((state: ApplicationState) => state.historicalWeatherData)
+  );
+
+  readonly currentWeatherData$ = this.store$.pipe(
+    map((state: ApplicationState) => state.currentWeatherData)
   );
 
   constructor(
