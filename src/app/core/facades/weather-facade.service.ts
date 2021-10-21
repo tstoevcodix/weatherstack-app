@@ -100,13 +100,12 @@ export class WeatherFacadeService {
 
     this.storeService.setCurrentWeatherData(
       this.utilService.pick(response.current, [
-        'observation_time',
         'temperature',
         'weather_icons',
         'weather_descriptions',
         'wind_speed',
         'humidity',
-        'preasure',
+        'pressure',
       ])
     );
 

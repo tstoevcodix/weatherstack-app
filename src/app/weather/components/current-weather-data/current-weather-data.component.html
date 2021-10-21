@@ -1,1 +1,18 @@
-<p>current-weather-data works!</p>
+<ng-container *ngIf="currentWeatherData">
+  <div>
+    <h4>{{ today | date: "mediumDate" }}</h4>
+    <img [src]="currentWeatherData.weather_icons[0]" alt="" width="128px" />
+    <p>{{ currentWeatherData.weather_descriptions[0] }}</p>
+  </div>
+  <div>
+    <div id="temperature">
+      <fa-icon [icon]="thermometerIcon"></fa-icon>
+      {{ currentWeatherData.temperature }}&deg;C
+    </div>
+  </div>
+  <div class="align-right">
+    <p>Humidity: {{ currentWeatherData.humidity }} mm</p>
+    <p>Pressure: {{ currentWeatherData.pressure }} mb</p>
+    <p>Wind speed: {{ currentWeatherData.wind_speed }} kmph</p>
+  </div>
+</ng-container>

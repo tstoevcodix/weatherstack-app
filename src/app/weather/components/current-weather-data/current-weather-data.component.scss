@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #temperature {
+    font-size: 3rem;
+    color: #000000a3;
+  }
+
+  .align-right {
+    align-items: flex-start;
+  }
+
+  p {
+    margin: 0.5rem 0;
+  }
+}
