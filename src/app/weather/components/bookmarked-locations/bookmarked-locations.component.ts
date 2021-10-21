@@ -20,4 +20,8 @@ export class BookmarkedLocationsComponent {
   @Output() handleUnmarkLocation = new EventEmitter<LocationModel>();
 
   removeIcon = faTimes;
+
+  trackByName(_: number, location: LocationModel): string {
+    return location.name;
+  }
 }

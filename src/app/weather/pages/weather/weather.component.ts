@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs/operators';
 
@@ -12,6 +17,7 @@ import { LocationModel } from 'src/app/models/location.model';
   selector: 'app-weather',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeatherComponent implements OnInit {
   bookmarkedLocations = new Array<LocationModel>();
@@ -20,7 +26,10 @@ export class WeatherComponent implements OnInit {
   currentWeatherData: CurrentReadingsModel | null = null;
   historicalData = new Array<HistoricalReadingsModel>();
 
-  constructor(private weatherFacadeService: WeatherFacadeService) {}
+  constructor(
+    private weatherFacadeService: WeatherFacadeService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.handleBookmarkedLocationChange();
@@ -51,6 +60,7 @@ export class WeatherComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((locations) => {
         this.bookmarkedLocations = locations;
+        this.changeDetector.markForCheck();
       });
   }
 
@@ -65,6 +75,7 @@ export class WeatherComponent implements OnInit {
         this.currentLocation = `${location?.name}, ${location?.region}, ${location?.country}`;
         this.isCurrentLocationBookmarked =
           this.weatherFacadeService.isCurrentLocationBookmarked();
+        this.changeDetector.markForCheck();
       });
   }
 
@@ -74,6 +85,7 @@ export class WeatherComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((currentWeatherData) => {
         this.currentWeatherData = currentWeatherData;
+        this.changeDetector.markForCheck();
       });
   }
 
@@ -83,6 +95,7 @@ export class WeatherComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((historicalData) => {
         this.historicalData = historicalData;
+        this.changeDetector.markForCheck();
       });
   }
 }
