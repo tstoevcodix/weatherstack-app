@@ -1,7 +1,30 @@
 <aside>
-  <app-bookmarked-locations></app-bookmarked-locations>
+  <app-bookmarked-locations
+    [bookmarkedLocations]="bookmarkedLocations"
+    (handleUnmarkLocation)="unmarkLocation($event)"
+  ></app-bookmarked-locations>
 </aside>
 <main>
-  <app-search-bar></app-search-bar>
-  <app-weather-data-preview></app-weather-data-preview>
+  <app-search-bar
+    [location]="currentLocation"
+    (handleGetWeather)="getWeather($event)"
+  ></app-search-bar>
+  <app-weather-location
+    [location]="currentLocation"
+    [isBookmarked]="isCurrentLocationBookmarked"
+    (handleBookmark)="bookmarkLocation()"
+    (handleUnmark)="unmarkCurrentLocation()"
+  ></app-weather-location>
+  <app-current-weather-data
+    [currentWeatherData]="currentWeatherData"
+  ></app-current-weather-data>
+  <ng-container *ngIf="historicalData.length">
+    <p>Last three days:</p>
+    <div class="cards">
+      <app-historical-weather-card
+        *ngFor="let data of historicalData"
+        [data]="data"
+      ></app-historical-weather-card>
+    </div>
+  </ng-container>
 </main>

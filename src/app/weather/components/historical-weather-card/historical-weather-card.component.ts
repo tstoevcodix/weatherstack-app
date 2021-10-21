@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { faThermometerQuarter } from '@fortawesome/free-solid-svg-icons';
 
 import { HistoricalReadingsModel } from 'src/app/models/historical-readings.model';
@@ -7,6 +7,7 @@ import { HistoricalReadingsModel } from 'src/app/models/historical-readings.mode
   selector: 'app-historical-weather-card',
   templateUrl: './historical-weather-card.component.html',
   styleUrls: ['./historical-weather-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoricalWeatherCardComponent {
   @Input() data!: HistoricalReadingsModel;

@@ -1,2 +1,10 @@
-<input type="text" name="location" [(ngModel)]="location" />
-<button (click)="handleGetWeather()">Get Weather</button>
+<input
+  #currentLocation
+  type="text"
+  name="location"
+  [value]="location"
+  (keydown.enter)="handleGetWeather.emit(currentLocation.value)"
+/>
+<button (click)="handleGetWeather.emit(currentLocation.value)">
+  Get Weather
+</button>
