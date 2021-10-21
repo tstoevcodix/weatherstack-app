@@ -3,11 +3,14 @@
   aside {
     width: 33%;
     display: inline-block;
+    height: 99vh;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   }
 
   main {
     width: 66%;
     max-width: 820px;
     display: inline-block;
+    margin: 1rem 0 0 1rem;
   }
 }

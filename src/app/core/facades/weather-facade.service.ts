@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { EMPTY, Subject, Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NotifierService } from 'angular-notifier';
-import { pick } from 'lodash';
 
 import { LocationModel } from 'src/app/models/location.model';
 import { ApiService } from '../services/api/api.service';
@@ -10,6 +9,7 @@ import { StoreService } from '../services/store/store.service';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { ApiResponseModel } from 'src/app/models/api-response.model';
 import { UtilService } from '../services/util/util.service';
+import { HistoricalReadingsModel } from 'src/app/models/historical-readings.model';
 
 @UntilDestroy()
 @Injectable({
@@ -66,6 +66,10 @@ export class WeatherFacadeService {
     return this.bookmarkedLocations.some((location) =>
       this.utilService.areEqual(this.currentLocation, location)
     );
+  }
+
+  historicalData$(): Observable<Array<HistoricalReadingsModel>> {
+    return this.storeService.historicalData$;
   }
 
   private setState(response: ApiResponseModel): void {

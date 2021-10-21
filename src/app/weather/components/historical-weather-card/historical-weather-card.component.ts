@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { faThermometerQuarter } from '@fortawesome/free-solid-svg-icons';
+
+import { HistoricalReadingsModel } from 'src/app/models/historical-readings.model';
 
 @Component({
   selector: 'app-historical-weather-card',
   templateUrl: './historical-weather-card.component.html',
-  styleUrls: ['./historical-weather-card.component.scss']
+  styleUrls: ['./historical-weather-card.component.scss'],
 })
-export class HistoricalWeatherCardComponent implements OnInit {
+export class HistoricalWeatherCardComponent {
+  @Input() data!: HistoricalReadingsModel;
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  themrometerIcon = faThermometerQuarter;
 }

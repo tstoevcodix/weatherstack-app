@@ -1,1 +1,9 @@
-<p>historical-weather-card works!</p>
+<ng-container *ngIf="data">
+  <h4>{{ data.date | date: "mediumDate" }}</h4>
+  <p>
+    Min: <fa-icon [icon]="themrometerIcon"></fa-icon> {{ data.mintemp }} &deg;C
+  </p>
+  <p>
+    Max: <fa-icon [icon]="themrometerIcon"></fa-icon> {{ data.maxtemp }} &deg;C
+  </p>
+</ng-container>

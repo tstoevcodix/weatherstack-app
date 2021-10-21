@@ -24,6 +24,10 @@ export class StoreService {
     map((state: ApplicationState) => state.currentLocation)
   );
 
+  readonly historicalData$ = this.store$.pipe(
+    map((state: ApplicationState) => state.historicalWeatherData)
+  );
+
   constructor(
     private utilService: UtilService,
     private localStorageService: LocalStorageService

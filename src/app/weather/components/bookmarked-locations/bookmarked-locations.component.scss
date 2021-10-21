@@ -1,4 +1,7 @@
 :host {
+  * {
+    padding-left: 0.5rem;
+  }
   fa-icon {
     color: #d9534f;
     cursor: pointer;

@@ -1,1 +1,7 @@
-<app-historical-weather-card></app-historical-weather-card>
+<p>Last three days:</p>
+<div class="cards">
+  <app-historical-weather-card
+    *ngFor="let data of historicalData"
+    [data]="data"
+  ></app-historical-weather-card>
+</div>
