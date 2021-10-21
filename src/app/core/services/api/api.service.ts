@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ApiResponseModel } from 'src/app/models/api-response.model';
+import { ApiResponse } from 'src/app/models/api-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getWeatherReport(location: string): Observable<ApiResponseModel> {
+  getWeatherReport(location: string): Observable<ApiResponse> {
     const today = new Date();
     const historical_date = [
       this.removeDays(today, 1),
@@ -27,7 +27,7 @@ export class ApiService {
       historical_date,
     };
 
-    return this.http.get<ApiResponseModel>(this.apiUrl, { params });
+    return this.http.get<ApiResponse>(this.apiUrl, { params });
   }
 
   private removeDays(date: Date, days: number): string {

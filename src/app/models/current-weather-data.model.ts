@@ -1,4 +1,4 @@
-export interface CurrentReadingsModel {
+export interface CurrentWeatherData {
   temperature: number;
   weather_icons: Array<string>;
   weather_descriptions: Array<string>;

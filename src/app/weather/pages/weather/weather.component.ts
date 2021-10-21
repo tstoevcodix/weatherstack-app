@@ -8,9 +8,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs/operators';
 
 import { WeatherFacadeService } from 'src/app/core/facades/weather-facade.service';
-import { CurrentReadingsModel } from 'src/app/models/current-readings.model';
-import { HistoricalReadingsModel } from 'src/app/models/historical-readings.model';
-import { LocationModel } from 'src/app/models/location.model';
+import { CurrentWeatherData } from 'src/app/models/current-weather-data.model';
+import { HistoricalWeatherData } from 'src/app/models/historical-weather-data.model';
+import { Location } from 'src/app/models/location.model';
 
 @UntilDestroy()
 @Component({
@@ -20,11 +20,11 @@ import { LocationModel } from 'src/app/models/location.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeatherComponent implements OnInit {
-  bookmarkedLocations = new Array<LocationModel>();
+  bookmarkedLocations = new Array<Location>();
   currentLocation = '';
   isCurrentLocationBookmarked = false;
-  currentWeatherData: CurrentReadingsModel | null = null;
-  historicalData = new Array<HistoricalReadingsModel>();
+  currentWeatherData: CurrentWeatherData | null = null;
+  historicalData = new Array<HistoricalWeatherData>();
 
   constructor(
     private weatherFacadeService: WeatherFacadeService,
@@ -42,7 +42,7 @@ export class WeatherComponent implements OnInit {
     this.weatherFacadeService.unmarkCurrentLocation();
   }
 
-  unmarkLocation(location: LocationModel): void {
+  unmarkLocation(location: Location): void {
     this.weatherFacadeService.unmarkLocation(location);
   }
 
@@ -69,7 +69,7 @@ export class WeatherComponent implements OnInit {
       .getCurrentLocation$()
       .pipe(
         untilDestroyed(this),
-        filter((location: LocationModel | null) => location !== null)
+        filter((location: Location | null) => location !== null)
       )
       .subscribe((location) => {
         this.currentLocation = `${location?.name}, ${location?.region}, ${location?.country}`;

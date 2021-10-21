@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { EMPTY, Subject, Observable } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NotifierService } from 'angular-notifier';
 
-import { LocationModel } from 'src/app/models/location.model';
+import { Location } from 'src/app/models/location.model';
 import { ApiService } from '../services/api/api.service';
 import { StoreService } from '../services/store/store.service';
-import { catchError, switchMap, tap } from 'rxjs/operators';
-import { ApiResponseModel } from 'src/app/models/api-response.model';
+import { ApiResponse } from 'src/app/models/api-response.model';
 import { UtilService } from '../services/util/util.service';
-import { HistoricalReadingsModel } from 'src/app/models/historical-readings.model';
-import { CurrentReadingsModel } from 'src/app/models/current-readings.model';
+import { HistoricalWeatherData } from 'src/app/models/historical-weather-data.model';
+import { CurrentWeatherData } from 'src/app/models/current-weather-data.model';
 
 @UntilDestroy()
 @Injectable({
@@ -18,8 +18,8 @@ import { CurrentReadingsModel } from 'src/app/models/current-readings.model';
 })
 export class WeatherFacadeService {
   private getWeather$ = new Subject<string>();
-  private currentLocation: LocationModel | null = null;
-  private bookmarkedLocations: Array<LocationModel> = [];
+  private currentLocation: Location | null = null;
+  private bookmarkedLocations = new Array<Location>();
 
   constructor(
     private apiService: ApiService,
@@ -29,15 +29,10 @@ export class WeatherFacadeService {
   ) {
     this.handleGetWeather();
     this.handleBookmarkedLocationsChange();
-
-    this.getCurrentLocation$()
-      .pipe(untilDestroyed(this))
-      .subscribe((currentLocation: LocationModel | null) => {
-        this.currentLocation = currentLocation;
-      });
+    this.handleCurrentLocationChange();
   }
 
-  getCurrentLocation$(): Observable<LocationModel | null> {
+  getCurrentLocation$(): Observable<Location | null> {
     return this.storeService.currentLocation$;
   }
 
@@ -45,14 +40,12 @@ export class WeatherFacadeService {
     this.getWeather$.next(location);
   }
 
-  getBookmarkedLocations$(): Observable<Array<LocationModel>> {
+  getBookmarkedLocations$(): Observable<Array<Location>> {
     return this.storeService.bookmarkedLocations$;
   }
 
   bookmarkCurrentLocation(): void {
-    this.storeService.addBookmarkedLocation(
-      this.currentLocation as LocationModel
-    );
+    this.storeService.addBookmarkedLocation(this.currentLocation as Location);
 
     this.notifierService.notify(
       'success',
@@ -60,7 +53,7 @@ export class WeatherFacadeService {
     );
   }
 
-  unmarkLocation(location: LocationModel): void {
+  unmarkLocation(location: Location): void {
     this.storeService.removeBookmarkedLocation(location);
     this.notifierService.notify(
       'success',
@@ -69,7 +62,7 @@ export class WeatherFacadeService {
   }
 
   unmarkCurrentLocation(): void {
-    this.unmarkLocation(this.currentLocation as LocationModel);
+    this.unmarkLocation(this.currentLocation as Location);
   }
 
   isCurrentLocationBookmarked(): boolean {
@@ -78,15 +71,15 @@ export class WeatherFacadeService {
     );
   }
 
-  historicalData$(): Observable<Array<HistoricalReadingsModel>> {
+  historicalData$(): Observable<Array<HistoricalWeatherData>> {
     return this.storeService.historicalData$;
   }
 
-  currentWeatherData$(): Observable<CurrentReadingsModel | null> {
+  currentWeatherData$(): Observable<CurrentWeatherData | null> {
     return this.storeService.currentWeatherData$;
   }
 
-  private setState(response: ApiResponseModel): void {
+  private setState(response: ApiResponse): void {
     if (response.error) {
       this.notifierService.notify('error', response.error.info);
 
@@ -99,32 +92,17 @@ export class WeatherFacadeService {
       return;
     }
 
-    const location = this.utilService.pick(response.location, [
-      'name',
-      'region',
-      'country',
-    ]);
+    const location = this.utilService.mapLocation(response.location);
     this.currentLocation = location;
     this.storeService.setCurrentLocation(location);
 
     this.storeService.setCurrentWeatherData(
-      this.utilService.pick(response.current, [
-        'temperature',
-        'weather_icons',
-        'weather_descriptions',
-        'wind_speed',
-        'humidity',
-        'pressure',
-      ])
+      this.utilService.mapCurrentWeatherData(response.current)
     );
 
     this.storeService.setHistoricalWeatherData(
       Object.values(response.historical).map((historicalWeatherData) =>
-        this.utilService.pick(historicalWeatherData, [
-          'mintemp',
-          'maxtemp',
-          'date',
-        ])
+        this.utilService.mapHistoricalWeatherData(historicalWeatherData)
       )
     );
   }
@@ -137,7 +115,7 @@ export class WeatherFacadeService {
             .getWeatherReport(location)
             .pipe(catchError(() => EMPTY))
         ),
-        tap((response: ApiResponseModel) => this.setState(response)),
+        tap((response: ApiResponse) => this.setState(response)),
         untilDestroyed(this)
       )
       .subscribe();
@@ -146,11 +124,19 @@ export class WeatherFacadeService {
   private handleBookmarkedLocationsChange(): void {
     this.storeService.bookmarkedLocations$
       .pipe(
-        tap((locations: Array<LocationModel>) => {
+        tap((locations: Array<Location>) => {
           this.bookmarkedLocations = locations;
         }),
         untilDestroyed(this)
       )
       .subscribe();
+  }
+
+  private handleCurrentLocationChange(): void {
+    this.getCurrentLocation$()
+      .pipe(untilDestroyed(this))
+      .subscribe((currentLocation: Location | null) => {
+        this.currentLocation = currentLocation;
+      });
   }
 }

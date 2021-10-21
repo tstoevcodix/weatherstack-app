@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import { LocationModel } from 'src/app/models/location.model';
+import { Location } from 'src/app/models/location.model';
 
 @Component({
   selector: 'app-bookmarked-locations',
@@ -16,12 +16,12 @@ import { LocationModel } from 'src/app/models/location.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookmarkedLocationsComponent {
-  @Input() bookmarkedLocations: Array<LocationModel> = [];
-  @Output() handleUnmarkLocation = new EventEmitter<LocationModel>();
+  @Input() bookmarkedLocations: Array<Location> = [];
+  @Output() handleUnmarkLocation = new EventEmitter<Location>();
 
   removeIcon = faTimes;
 
-  trackByName(_: number, location: LocationModel): string {
+  trackByName(_: number, location: Location): string {
     return location.name;
   }
 }
