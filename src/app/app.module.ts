@@ -9,8 +9,8 @@ import { WeatherModule } from './weather/weather.module';
 const customNotifierOptions: NotifierOptions = {
   theme: 'material',
   position: {
-    horizontal: { position: 'right' },
-    vertical: { position: 'top' },
+    horizontal: { position: 'middle' },
+    vertical: { position: 'bottom' },
   },
 };
 

@@ -53,10 +53,19 @@ export class WeatherFacadeService {
     this.storeService.addBookmarkedLocation(
       this.currentLocation as LocationModel
     );
+
+    this.notifierService.notify(
+      'success',
+      `${this.currentLocation?.name} has been added to bookmarked locations.`
+    );
   }
 
   unmarkLocation(location: LocationModel): void {
     this.storeService.removeBookmarkedLocation(location);
+    this.notifierService.notify(
+      'success',
+      `${location.name} has been removed from bookmarked locations.`
+    );
   }
 
   unmarkCurrentLocation(): void {
